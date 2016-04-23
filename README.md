@@ -33,7 +33,7 @@ SONATYPE_USER='paradoxicalio' \
 SONATYPE_PASSWORD='<PASSWORD>' \
 GPG_PRIVATE_KEY_ENCRYPTION_KEY=<KEY> \
 GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
-./deployment/setup-travis.sh
+./.deployment/setup-travis.sh
 ```
 
 # Enabling maven caching
