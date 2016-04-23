@@ -8,14 +8,16 @@ if [ -z "${GPG_PASSWORD}" ]; then
     read -p "GPG_PASSWORD=" GPG_PASSWORD
 fi
 
+SCRIPT_DIR=`dirname $0`
+
 travis encrypt "SONATYPE_PASSWORD='${SONATYPE_PASSWORD}'" -a
 travis encrypt "GPG_PASSWORD='${GPG_PASSWORD}'" -a
 
-
 if [ -z "${GPG_PRIVATE_KEY_ENCRYPTION_KEY}" ]; then
 
-    travis encrypt-file gpg/paradoxical-io-private.gpg gpg/paradoxical-io-private.gpg.enc \
-        -w gpg/paradoxical-io-private.gpg -p
+    travis encrypt-file "${SCRIPT_DIR}/gpg/paradoxical-io-private.gpg" \
+        "${SCRIPT_DIR}/gpg/paradoxical-io-private.gpg.enc" \
+        -w "${SCRIPT_DIR}/gpg/paradoxical-io-private.gpg" -p
 
     echo "use \$GPG_PRIVATE_KEY_ENCRYPTION_KEY and \$GPG_PRIVATE_KEY_ENCRYPTION_IV for the file encryption command instead"
 fi
