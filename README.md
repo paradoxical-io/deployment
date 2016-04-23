@@ -4,7 +4,7 @@ Deployment submodule for paradoxical repos
 # Setting up a repo
 Add a `.deployment` folder as a submodule refering to this repo
 ```
-git submodule -b master https://github.com/paradoxical-io/deployment.git .deployment
+git submodule add -b master https://github.com/paradoxical-io/deployment.git .deployment
 ```
 
 # Configure your `.travis.yml`
