@@ -22,7 +22,7 @@ echo "=== Build parameters ===
 
 if [ "$TRAVIS_SECURE_ENV_VARS" != "true" -o "$TRAVIS_PULL_REQUEST" != "false" ]; then
 
-    echo "No deployment running for pull requests"
+    echo "No deployment running for pull requests $TRAVIS_PULL_REQUEST"
     exit 0
 fi
 
