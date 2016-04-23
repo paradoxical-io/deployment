@@ -26,11 +26,13 @@ if [ "$TRAVIS_SECURE_ENV_VARS" != "true" -o "$TRAVIS_PULL_REQUEST" != "false" ];
     exit 0
 fi
 
-echo "Decrypting gpg key"
+echo "Decrypting gpg key..."
 
 openssl aes-256-cbc -K ${GPG_PRIVATE_KEY_ENCRYPTION_KEY} -iv ${GPG_PRIVATE_KEY_ENCRYPTION_IV} \
   -in "${SCRIPT_DIR}/gpg/paradoxical-io-private.gpg.enc" \
   -out "${SCRIPT_DIR}/gpg/paradoxical-io-private.gpg" -d
+
+echo "DONE decrypting gpg key!"
 
 if [ -n "$TRAVIS_TAG" ]; then
     echo "Deploying release version for tag '${TRAVIS_TAG}'"
@@ -42,4 +44,5 @@ elif [ "$TRAVIS_BRANCH" = "master" ]; then
     exit $?
 else
     echo "No deployment running for current settings"
+    exit 0
 fi
