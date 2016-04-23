@@ -1,13 +1,13 @@
-# deployment
-Deployment Submodule for paradoxical repos
+# Paradoxical deployments
+Deployment submodule for paradoxical repos
 
 # Setting up a repo
-
+Add a `.deployment` folder as a submodule refering to this repo
 ```
 git submodule -b master https://github.com/paradoxical-io/deployment.git .deployment
 ```
 
-# Setup `.travis.yml`
+# Configure your `.travis.yml`
 Add the following to your travis configuration
 ```
 git:
@@ -24,7 +24,20 @@ after_success:
 - ./.deployment/deploy.sh
 ```
 
+# Run `setup-travs.sh`
+Travis needs to be setup with all the secure variables we use for deployment
+
+```
+GPG_PASSWORD='<PASSWORD>' \
+SONATYPE_USER='paradoxicalio' \
+SONATYPE_PASSWORD='<PASSWORD>' \
+GPG_PRIVATE_KEY_ENCRYPTION_KEY=<KEY> \
+GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
+./deployment/setup-travis.sh
+```
+
 # Enabling maven caching
+If you're adding this to a library then be sure to enable maven caching to improve build speeds
 ```
 sudo: false
 cache:
