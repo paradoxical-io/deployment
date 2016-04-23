@@ -36,6 +36,81 @@ GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
 ./.deployment/setup-travis.sh
 ```
 
+# Configure your `pom.xml`
+
+## Setup the `version`
+```
+    <version>1.0${revision}</version>
+```
+
+## Add a `revision` property default
+```
+    <revision>-SNAPSHOT</revision>
+```
+
+## Add a `release` profile
+```
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven.source.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <defaultKeyring>false</defaultKeyring>
+                            <keyname>476C78DF</keyname>
+                            <passphrase>${env.GPG_PASSWORD}</passphrase>
+                            <publicKeyring>${project.basedir}/gpg/paradoxical-io.pubgpg</publicKeyring>
+                            <secretKeyring>${project.basedir}/gpg/paradoxical-io-private.gpg</secretKeyring>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+```
+
 # Enabling maven caching
 If you're adding this to a library then be sure to enable maven caching to improve build speeds
 ```
