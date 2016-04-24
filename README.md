@@ -48,6 +48,35 @@ GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
     <revision>-SNAPSHOT</revision>
 ```
 
+## Ensure you have the repository defined
+```
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+```
+
+## Ensure you have the nexus plugin configured
+```
+    <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.6</version>
+        <extensions>true</extensions>
+        <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+    </plugin>
+```
+
 ## Add a `release` profile
 ```
     <profiles>
