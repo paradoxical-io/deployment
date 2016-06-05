@@ -103,7 +103,7 @@ GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven.source.plugin.version}</version>
+                        <version>2.4</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -128,10 +128,10 @@ GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
                         </executions>
                         <configuration>
                             <defaultKeyring>false</defaultKeyring>
-                            <keyname>476C78DF</keyname>
-                            <passphrase>${env.GPG_PASSWORD}</passphrase>
                             <publicKeyring>${project.basedir}/.deployment/gpg/paradoxical-io.pubgpg</publicKeyring>
                             <secretKeyring>${project.basedir}/.deployment/gpg/paradoxical-io-private.gpg</secretKeyring>
+                            <keyname>476C78DF</keyname>
+                            <passphraseServerId>gpg-key</passphraseServerId>
                         </configuration>
                     </plugin>
                 </plugins>
