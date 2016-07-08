@@ -164,6 +164,13 @@
 
     <profiles>
         <profile>
+            <id>snapshot</id>
+            <properties>
+                <revision>-SNAPSHOT</revision>
+            </properties>
+        </profile>
+
+        <profile>
             <id>release</id>
             <properties>
                 <!-- intentionally empty -->
