@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR=`dirname $0`
+
+if [ ! -e ".travis.yml" ]; then
+    echo ".travis.yml file not found, creating one from the default..."
+    cp "${SCRIPT_DIR}/default-travis.yml" ".travis.yml"
+fi
+
 if [ -z "${SONATYPE_PASSWORD}" ]; then
     read -p "SONATYPE_PASSWORD=" SONATYPE_PASSWORD
 fi
@@ -7,8 +14,6 @@ fi
 if [ -z "${GPG_PASSWORD}" ]; then
     read -p "GPG_PASSWORD=" GPG_PASSWORD
 fi
-
-SCRIPT_DIR=`dirname $0`
 
 travis encrypt "SONATYPE_PASSWORD='${SONATYPE_PASSWORD}'" -a
 travis encrypt "GPG_PASSWORD='${GPG_PASSWORD}'" -a
