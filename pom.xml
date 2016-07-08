@@ -7,6 +7,16 @@
     <version>1.0${revision}</version>
     <packaging>pom</packaging>
 
+    <name>Paradoxical deployment base pom</name>
+    <description>A base pom with deployment settings for paradoxical projects</description>
+    <url>https://github.com/paradoxical-io</url>
+
+    <scm>
+        <url>http://github.com/paradoxical-io/deployment</url>
+        <connection>scm:git:git@github.com:paradoxical-io/deployment.git</connection>
+        <developerConnection>scm:git:git@github.com:paradoxical-io/deployment.git</developerConnection>
+    </scm>
+
     <developers>
         <developer>
             <id>jakeswenson</id>

@@ -43,101 +43,139 @@ GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
     <version>1.0${revision}</version>
 ```
 
-## Add a `revision` property default
+## Option 1: Using the parent pom
+
+As of `deployment 1.0` we now support a parent pom option for configuring your projects.
+This makes setting up a new deployment project super easy.
+
+### Add the parent pom
 ```
-    <revision>-SNAPSHOT</revision>
+<parent>
+    <groupId>io.paradoxical</groupId>
+    <artifactId>deployment-base-pom</artifactId>
+    <version>1.0</version>
+</parent>
 ```
 
-## Ensure you have the repository defined
+### Make sure you override the parents default settings
+The parent POM sets up some default settings required to publish to maven central,
+however your project will likely have its own values
+
+#### Configure Project details
+Make sure you define your own values for:
 ```
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-    </distributionManagement>
+<name>Paradoxical deployment base pom</name>
+<description>A base pom with deployment settings for paradoxical projects</description>
+<url>https://github.com/paradoxical-io</url>
 ```
 
-## Ensure you have the nexus plugin configured
+#### Configure your source control details (SCM)
 ```
-    <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.6</version>
-        <extensions>true</extensions>
-        <configuration>
-            <serverId>ossrh</serverId>
-            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-        </configuration>
-    </plugin>
+<scm>
+    <url>http://github.com/paradoxical-io/deployment</url>
+    <connection>scm:git:git@github.com:paradoxical-io/deployment.git</connection>
+    <developerConnection>scm:git:git@github.com:paradoxical-io/deployment.git</developerConnection>
+</scm>
 ```
 
-## Add a `release` profile
+## Option 2: Manual pom configuration
+If you cannot/choose not to go the route of parent pom then you have some manual steps to configure...
+
+### Add a `revision` property default
 ```
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <failOnError>false</failOnError>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>2.4</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <defaultKeyring>false</defaultKeyring>
-                            <publicKeyring>${project.basedir}/.deployment/gpg/paradoxical-io.pubgpg</publicKeyring>
-                            <secretKeyring>${project.basedir}/.deployment/gpg/paradoxical-io-private.gpg</secretKeyring>
-                            <keyname>476C78DF</keyname>
-                            <passphraseServerId>gpg-key</passphraseServerId>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+<revision>-SNAPSHOT</revision>
+```
+
+### Ensure you have the repository defined
+```
+<distributionManagement>
+    <snapshotRepository>
+        <id>ossrh</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+        <id>ossrh</id>
+        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+</distributionManagement>
+```
+
+### Ensure you have the nexus plugin configured
+```
+<plugin>
+    <groupId>org.sonatype.plugins</groupId>
+    <artifactId>nexus-staging-maven-plugin</artifactId>
+    <version>1.6.6</version>
+    <extensions>true</extensions>
+    <configuration>
+        <serverId>ossrh</serverId>
+        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+    </configuration>
+</plugin>
+```
+
+### Add a `release` profile
+```
+<profiles>
+    <profile>
+        <id>release</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <failOnError>false</failOnError>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.4</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <defaultKeyring>false</defaultKeyring>
+                        <publicKeyring>${project.basedir}/.deployment/gpg/paradoxical-io.pubgpg</publicKeyring>
+                        <secretKeyring>${project.basedir}/.deployment/gpg/paradoxical-io-private.gpg</secretKeyring>
+                        <keyname>476C78DF</keyname>
+                        <passphraseServerId>gpg-key</passphraseServerId>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
 ```
 
 # Enabling maven caching
