@@ -140,8 +140,7 @@
                     <configuration>
                         <defaultKeyring>false</defaultKeyring>
                         <publicKeyring>${deployment.directory}/gpg/paradoxical-io.pubgpg</publicKeyring>
-                        <secretKeyring>${deployment.directory}/gpg/paradoxical-io-private.gpg
-                        </secretKeyring>
+                        <secretKeyring>${deployment.directory}/gpg/paradoxical-io-private.gpg</secretKeyring>
                         <keyname>476C78DF</keyname>
                         <passphraseServerId>gpg.key</passphraseServerId>
                     </configuration>

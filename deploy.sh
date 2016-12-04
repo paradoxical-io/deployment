@@ -58,14 +58,22 @@ if [ -n "$TRAVIS_TAG" ]; then
 
     _decrypt_gpg
 
-    mvn clean deploy --settings "${SCRIPT_DIR}/settings.xml" -DskipTests -P release -Drevision="$REVISION" $@
+    mvn clean deploy --settings "${SCRIPT_DIR}/settings.xml" \
+        -P release \
+        -DskipTests \
+        -Drevision="$REVISION" \
+        -Ddeployment.directory="${SCRIPT_DIR}" $@
+
     exit $?
 elif [ "$TRAVIS_BRANCH" = "${BUILD_BRANCH}" ]; then
     echo "Deploying snapshot version on branch '${TRAVIS_BRANCH}'"
 
     _decrypt_gpg
 
-    mvn clean deploy --settings "${SCRIPT_DIR}/settings.xml" -DskipTests -P snapshot $@
+    mvn clean deploy --settings "${SCRIPT_DIR}/settings.xml" \
+        -P snapshot \
+        -DskipTests $@
+
     exit $?
 else
     echo "No deployment running for current settings"
