@@ -4,7 +4,7 @@
 
     <groupId>io.paradoxical</groupId>
     <artifactId>deployment-base-pom</artifactId>
-    <version>1.0${revision}</version>
+    <version>1.1${revision}</version>
     <packaging>pom</packaging>
 
     <name>Paradoxical deployment base pom</name>
@@ -50,9 +50,16 @@
     </distributionManagement>
 
     <properties>
+        <java.version>1.8</java.version>
         <revision>-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <deployment.directory>${project.basedir}/.deployment</deployment.directory>
+
+        <maven.plugins.compiler.version>3.6.0</maven.plugins.compiler.version>
+        <maven.plugins.nexus-staging.version>1.6.7</maven.plugins.nexus-staging.version>
+        <maven.plugins.javadoc.version>2.10.4</maven.plugins.javadoc.version>
+        <maven.plugins.source.version>3.0.1</maven.plugins.source.version>
+        <maven.plugins.gpg.version>1.6</maven.plugins.gpg.version>
     </properties>
 
     <dependencies>
@@ -61,6 +68,15 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.plugins.compiler.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>io.paradoxical</groupId>
                     <artifactId>resolved-pom-maven-plugin</artifactId>
@@ -84,7 +100,7 @@
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.6</version>
+                    <version>${maven.plugins.nexus-staging.version}</version>
                     <extensions>true</extensions>
                     <configuration>
                         <serverId>ossrh</serverId>
@@ -96,7 +112,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.3</version>
+                    <version>${maven.plugins.javadoc.version}</version>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
@@ -113,7 +129,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>${maven.plugins.source.version}</version>
                     <executions>
                         <execution>
                             <id>attach-sources</id>
@@ -127,7 +143,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
+                    <version>${maven.plugins.gpg.version}</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
