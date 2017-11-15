@@ -4,6 +4,16 @@ SCRIPT_DIR=`dirname $0`
 
 echo "Deployment script running..."
 
+# default to maven to support legacy
+DEPLOY_FILE="$SCRIPT_DIR/mvn/deploy.sh"
+
+if [ -f "$SCRIPT_DIR/../deploy.sh" ]; then
+    echo "Found custom deploy file"
+    DEPLOY_FILE="$SCRIPT_DIR/../deploy.sh"
+fi
+
+# load in the custom deploy file
+source $DEPLOY_FILE
 
 if [ -z "${BUILD_BRANCH}" ]; then
     BUILD_BRANCH='master'
@@ -58,11 +68,7 @@ if [ -n "$TRAVIS_TAG" ]; then
 
     _decrypt_gpg
 
-    mvn clean deploy --settings "${SCRIPT_DIR}/settings.xml" \
-        -P release \
-        -DskipTests \
-        -Drevision="$REVISION" \
-        -Ddeployment.directory="${SCRIPT_DIR}" $@
+    release $@
 
     exit $?
 elif [ "$TRAVIS_BRANCH" = "${BUILD_BRANCH}" ]; then
@@ -70,9 +76,7 @@ elif [ "$TRAVIS_BRANCH" = "${BUILD_BRANCH}" ]; then
 
     _decrypt_gpg
 
-    mvn clean deploy --settings "${SCRIPT_DIR}/settings.xml" \
-        -P snapshot \
-        -DskipTests $@
+    snapshot $@
 
     exit $?
 else
