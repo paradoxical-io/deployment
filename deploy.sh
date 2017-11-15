@@ -10,6 +10,8 @@ DEPLOY_FILE="$SCRIPT_DIR/mvn/deploy.sh"
 if [ -f "$SCRIPT_DIR/../deploy.sh" ]; then
     echo "Found custom deploy file"
     DEPLOY_FILE="$SCRIPT_DIR/../deploy.sh"
+else
+    echo "Using default maven deploy"
 fi
 
 # load in the custom deploy file
