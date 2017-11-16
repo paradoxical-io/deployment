@@ -25,7 +25,7 @@ after_success:
 ```
 
 # Run `setup-travs.sh`
-Travis needs to be setup with all the secure variables we use for deployment
+Travis needs to be setup with all the secure variables we use for deployment. These values should be pre-shared 
 
 ```
 GPG_PASSWORD='<PASSWORD>' \
@@ -35,6 +35,34 @@ GPG_PRIVATE_KEY_ENCRYPTION_KEY=<KEY> \
 GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
 ./.deployment/setup-travis.sh
 ```
+
+## Generic publication
+
+For language agonstic deployment we expose a hook into the root folder into a file called `deploy.sh`.
+
+This file should have the following methods defined:
+
+```
+function snapshot() {
+   # what to do on snapshots
+}
+
+function release() {
+   # what to do on release. The $REVISION env var is available
+}
+```
+
+You should point your GPG keyring configurations to:
+
+```
+pgpPublicRing := new File(".deployment//gpg/paradoxical-io.pubgpg")
+pgpSecretRing := new File(".deployment//gpg/paradoxical-io-private.gpg")
+```
+
+As an example from a scala build project.
+
+## Maven Support
+
 
 # Configure your `pom.xml`
 
