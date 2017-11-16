@@ -64,7 +64,7 @@ As an example from a scala build project.
 # Maven Support
 
 
-# Configure your `pom.xml`
+## Configure your `pom.xml`
 
 ## Setup the `version`
 ```
