@@ -36,7 +36,7 @@ GPG_PRIVATE_KEY_ENCRYPTION_IV=<IV> \
 ./.deployment/setup-travis.sh
 ```
 
-## Generic publication
+# Generic publication
 
 For language agonstic deployment we expose a hook into the root folder into a file called `deploy.sh`.
 
@@ -61,7 +61,7 @@ pgpSecretRing := new File(".deployment//gpg/paradoxical-io-private.gpg")
 
 As an example from a scala build project.
 
-## Maven Support
+# Maven Support
 
 
 # Configure your `pom.xml`
